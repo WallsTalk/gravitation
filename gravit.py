@@ -73,7 +73,7 @@ def sum_vectors(v1, v2):
 ert = {
     'm': 5.972e24, # kg
     'xy': (0,147095e6), # m at perhelion, 152100e6 perihelion
-    'v': 30.29,#e3, # m/s  29.29 at aphelion initial velocity perependicular to the gravity
+    'v': 30.29e3,#e3, # m/s  29.29 at aphelion initial velocity perependicular to the gravity
     'color': 'bo'
     }
 sun = {
