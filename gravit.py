@@ -96,7 +96,7 @@ sun = {
 count = 0
 day = 86400 # in seconds
 step = day # time to make progress in graphic
-g_velocity = (ert['xy'][0] + ert['v'], 0)
+g_velocity = (21.2e3, -21.2e3)
 earth_trajectory = []
 while True:
     # print(ert['xy'])
@@ -107,29 +107,22 @@ while True:
     # calculate_current move
     # ancient_movement = ( nx - ert['v']*cos(angle), ny + ert['v']*cos(angle) )
     # ert['xy'] = ancient_movement #sum_vectors(ancient_movement, g_velocity)
-    # print(g_velocity, angle, degrees(angle))
-    # print(ert['xy'])
-    # print()
-    #print(g_velocity)
-    #print(ert['xy'])
-    ert['xy'] = sum_vectors(ert['xy'], g_velocity )
-    #print(ert['xy'])
-    #print()
-    #sleep(2)
+
+
+    
     #this is where we calculate (gravity_vector for upcoming moves)
-    g = calculate_gravity(ert['xy'], sun['xy'], ert['m'], ert['m'])
+    g = calculate_gravity(ert['xy'], sun['xy'], ert['m'], sun['m'])
     a = calculate_acceleration(g, ert['m'])
 
     v_ert2sun = vector( ert['xy'], sun['xy'] )
     eu_dist = euclidean_distance(v_ert2sun)
     # normalized vector is  portion that planet will pass in 1 iteration
     norm_vector_unit = divide(v_ert2sun, eu_dist)
-    #sleep(2)
+
     g_velocity = sum_vectors(g_velocity, norm_vector_unit*a)
-    # print(g_velocity)
-    # print(ert['xy'])
-    # print()
-    # sleep(2)
+    ert['xy'] = sum_vectors(ert['xy'], g_velocity )
+
+ 
     
     
     
