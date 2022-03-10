@@ -9,10 +9,7 @@ Created on Mon Jan 31 19:23:03 2022
 from matplotlib import pyplot as plt
 from math import sin, cos, degrees, atan2, hypot, radians
 from numpy import subtract, divide, multiply, array
-
 #import matplotlib.animation as ani
-from time import sleep
-
 
 
 def make_plot(xy, color):
@@ -41,7 +38,6 @@ def calculate_angle(cord1, cord2):
     return rad_angle
 
 
-
 def calculate_gravity(cord1, cord2, m1, m2):
     # F = G*(m1*m2)/r**2
     G = 6.674e-11 # m3⋅kg−1⋅s−2
@@ -59,17 +55,6 @@ def sum_vectors(v1, v2):
 
 
 
-# ert = {
-#     'm': 1, # kg
-#     'xy': (0, 5), # m
-#     'v': 1e-6, # m/s initial velocity perependicular to the gravity
-    
-#     }
-# sun = {
-#     'm': 100, # kg
-#     'xy': (0,0), #m
-#     'v': 1, # m/s
-#        }
 ert = {
     'm': 5.972e24, # kg
     'xy': (0,147095e6), # m at perhelion, 152100e6 aphelion
@@ -99,16 +84,6 @@ step = day # time to make progress in graphic
 g_velocity = (ert['v'], 0)
 earth_trajectory = []
 while True:
-    # print(ert['xy'])
-    
-    # calculate angle
-    #nx, ny = ert['xy']
-    #angle = calculate_angle(ert['xy'], sun['xy'])
-    # calculate_current move
-    # ancient_movement = ( nx - ert['v']*cos(angle), ny + ert['v']*cos(angle) )
-    # ert['xy'] = ancient_movement #sum_vectors(ancient_movement, g_velocity)
-
-
     ert['xy'] = sum_vectors(ert['xy'], g_velocity )
     
     #this is where we calculate (gravity_vector for upcoming moves)
@@ -121,15 +96,6 @@ while True:
     norm_vector_unit = divide(v_ert2sun, eu_dist)
     
     g_velocity = sum_vectors(g_velocity, norm_vector_unit*a)
-    
-
- 
-    
-    
-    
-    
-
-
     
     if count%step == 0:
         speed = (g_velocity[0]**2 + g_velocity[1]**2)**(1/2)
@@ -144,30 +110,16 @@ while True:
         plt.title("day:{}, dist:{} Mm, speed:{} km/s".format(int(count/day), round(eu_dist/1000000), round(speed/1000, 2)))
         plt.show()
     count += 1
-# =============================================================================
-# =============================================================================
-# (0, 147095000000.0)
-# (0, 0) 3.141592653589793
-# (30290.0, 147094969710.0)
-# 
-# (30290.0, 147094969710.0)
-# (-2.0592138575314003e-07, -0.9999999999999788) -3.1415924476684074
-# (60579.999999793436, 147094939419.0)
-# 
-# (60579.999999793436, 147094939419.0)
-# (-6.177642420680411e-07, -1.9999999999998939) -3.141592241746937
-# (90869.9999991731, 147094909127.0)
-# =============================================================================
-# =============================================================================
-# (0, 147090000000.0)
-# (0, 0) 3.141592653589793 180.0
-# (30290.0, 147089969710.0)
-# 
-# (30290.0, 147089969710.0)
-# (-2.0592838559773036e-07, -0.9999999999999788) -3.1415924476614077 -179.99998820117264
-# (60579.99999979343, 147089939419.0)
-# 
-# (60579.99999979343, 147089939419.0)
-# (-6.17785241607578e-07, -1.9999999999998939) -3.1415922417329374 -179.9999764023404
-# (90869.99999917307, 147089909127.0)
-# =============================================================================
+
+
+
+    ################### END
+    # print(ert['xy'])
+
+    # calculate angle
+    # nx, ny = ert['xy']
+    # angle = calculate_angle(ert['xy'], sun['xy'])
+    # calculate_current move
+    # ancient_movement = ( nx - ert['v']*cos(angle), ny + ert['v']*cos(angle) )
+    # ert['xy'] = ancient_movement #sum_vectors(ancient_movement, g_velocity)
+
