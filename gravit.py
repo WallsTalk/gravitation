@@ -72,7 +72,7 @@ def sum_vectors(v1, v2):
 #        }
 ert = {
     'm': 5.972e24, # kg
-    'xy': (0,147095e6), # m at perhelion, 152100e6 perihelion
+    'xy': (0,147095e6), # m at perhelion, 152100e6 aphelion
     'v': 30.29e3,#e3, # m/s  29.29 at aphelion initial velocity perependicular to the gravity
     'color': 'bo'
     }
@@ -96,7 +96,7 @@ sun = {
 count = 0
 day = 86400 # in seconds
 step = day # time to make progress in graphic
-g_velocity = (21.2e3, -21.2e3)
+g_velocity = (ert['v'], 0)
 earth_trajectory = []
 while True:
     # print(ert['xy'])
@@ -109,18 +109,19 @@ while True:
     # ert['xy'] = ancient_movement #sum_vectors(ancient_movement, g_velocity)
 
 
+    ert['xy'] = sum_vectors(ert['xy'], g_velocity )
     
     #this is where we calculate (gravity_vector for upcoming moves)
     g = calculate_gravity(ert['xy'], sun['xy'], ert['m'], sun['m'])
     a = calculate_acceleration(g, ert['m'])
-
+    
     v_ert2sun = vector( ert['xy'], sun['xy'] )
     eu_dist = euclidean_distance(v_ert2sun)
     # normalized vector is  portion that planet will pass in 1 iteration
     norm_vector_unit = divide(v_ert2sun, eu_dist)
-
+    
     g_velocity = sum_vectors(g_velocity, norm_vector_unit*a)
-    ert['xy'] = sum_vectors(ert['xy'], g_velocity )
+    
 
  
     
@@ -131,9 +132,7 @@ while True:
 
     
     if count%step == 0:
-        print(ert['xy'])
-        print(g_velocity)
-        print()
+        speed = (g_velocity[0]**2 + g_velocity[1]**2)**(1/2)
         earth_trajectory.append(ert['xy'])
         for g in earth_trajectory:
             make_plot(g, color='bo')
@@ -142,7 +141,7 @@ while True:
         plt.axis([-20, 20, -20, 20])
         plt.grid()
         plt.gca().set_aspect("equal")
-        plt.title("day:{}, dist:{} Mm".format(int(count/day), round(eu_dist/1000000)))
+        plt.title("day:{}, dist:{} Mm, speed:{} km/s".format(int(count/day), round(eu_dist/1000000), round(speed/1000, 2)))
         plt.show()
     count += 1
 # =============================================================================
